@@ -2,9 +2,11 @@ package me.filipebezerra.cms.domain.service;
 
 import me.filipebezerra.cms.domain.models.Category;
 import me.filipebezerra.cms.domain.repository.CategoryRepository;
+import me.filipebezerra.cms.domain.vo.CategoryRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CategoryService {
@@ -15,11 +17,16 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public Category update(Category category) {
+    public Category update(String id, CategoryRequest categoryRequest) {
+        final Category category = categoryRepository.findOne(id);
+        category.setName(categoryRequest.getName());
         return categoryRepository.save(category);
     }
 
-    public Category create(Category category) {
+    public Category create(CategoryRequest categoryRequest) {
+        final Category category = new Category();
+        category.setId(UUID.randomUUID().toString());
+        category.setName(categoryRequest.getName());
         return categoryRepository.save(category);
     }
 

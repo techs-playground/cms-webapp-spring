@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class Category {
 
-    String id;
+    private String id;
 
-    String name;
+    private String name;
 
 }
