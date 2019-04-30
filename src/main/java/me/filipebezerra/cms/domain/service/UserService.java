@@ -20,7 +20,7 @@ public class UserService {
     public User update(String id, UserRequest userRequest) {
         final User user = userRepository.findOne(id);
         user.setIdentity(userRequest.getIdentity());
-        user.setName(user.getName());
+        user.setName(userRequest.getName());
         user.setRole(userRequest.getRole());
         return userRepository.save(user);
     }
@@ -29,7 +29,7 @@ public class UserService {
         final User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setIdentity(userRequest.getIdentity());
-        user.setName(user.getName());
+        user.setName(userRequest.getName());
         user.setRole(userRequest.getRole());
         return userRepository.save(user);
     }

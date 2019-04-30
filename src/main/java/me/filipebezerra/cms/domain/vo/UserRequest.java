@@ -6,10 +6,10 @@ import me.filipebezerra.cms.domain.models.Role;
 @Data
 public class UserRequest {
 
-    String identity;
+    private String identity;
 
-    String name;
+    private String name;
 
-    Role role;
+    private Role role;
 
 }
