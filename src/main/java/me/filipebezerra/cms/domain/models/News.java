@@ -31,7 +31,7 @@ public class News {
 
     public Boolean revised() {
         return mandatoryReviewers.stream().allMatch(reviewer -> reviewers.stream()
-                .anyMatch(review -> reviewer.getId().equals(review.userId) && "approved".equals(review.status)));
+                .anyMatch(review -> reviewer.getId().equals(review.getUserId()) && "approved".equals(review.getStatus())));
     }
 
 }

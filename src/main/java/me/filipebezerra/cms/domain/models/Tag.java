@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class Tag {
 
-    String value;
+    private String value;
 
 }
