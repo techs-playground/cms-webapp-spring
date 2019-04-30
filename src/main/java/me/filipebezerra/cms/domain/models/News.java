@@ -7,21 +7,21 @@ import java.util.Set;
 @Data
 public class News {
 
-    String id;
+    private String id;
 
-    String title;
+    private String title;
 
-    String content;
+    private String content;
 
-    User author;
+    private User author;
 
-    Set<User> mandatoryReviewers;
+    private Set<User> mandatoryReviewers;
 
-    Set<Review> reviewers;
+    private Set<Review> reviewers;
 
-    Set<Category> categories;
+    private Set<Category> categories;
 
-    Set<Tag> tags;
+    private Set<Tag> tags;
 
     public Review review(String userId, String status) {
         final Review review = new Review(userId, status);
@@ -31,7 +31,7 @@ public class News {
 
     public Boolean revised() {
         return mandatoryReviewers.stream().allMatch(reviewer -> reviewers.stream()
-                .anyMatch(review -> reviewer.id.equals(review.userId) && "approved".equals(review.status)));
+                .anyMatch(review -> reviewer.getId().equals(review.userId) && "approved".equals(review.status)));
     }
 
 }

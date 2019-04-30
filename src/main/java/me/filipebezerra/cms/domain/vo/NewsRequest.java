@@ -9,12 +9,12 @@ import java.util.Set;
 @Data
 public class NewsRequest {
 
-    String title;
+    private String title;
 
-    String content;
+    private String content;
 
-    Set<Category> categories;
+    private Set<Category> categories;
 
-    Set<Tag> tags;
+    private Set<Tag> tags;
 
 }
