@@ -54,17 +54,6 @@ public class CategoryResource {
         return new ResponseEntity<>(categoryService.create(categoryRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation(value = "Remove category", notes = "It permits to remove a category")
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Category removed successfully"),
-            @ApiResponse(code = 404, message = "Category not found")
-    })
-    public void removeCategory(@PathVariable("id") String id) {
-        categoryService.delete(id);
-    }
-
     @PutMapping("/{id}")
     @ApiOperation(value = "Update category", notes = "It permits to update a category")
     @ApiResponses(value = {
@@ -76,4 +65,24 @@ public class CategoryResource {
         return new ResponseEntity<>(categoryService.update(id, categoryRequest), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "Remove category", notes = "It permits to remove a category")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Category removed successfully"),
+            @ApiResponse(code = 404, message = "Category not found")
+    })
+    public void removeCategory(@PathVariable("id") String id) {
+        categoryService.delete(id);
+    }
+
+    @GetMapping("/query")
+    @ApiOperation(value = "List categories by name with starting", notes = "List all categories by name with starting")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Categories found"),
+            @ApiResponse(code = 404, message = "Category not found")
+    })
+    public ResponseEntity<List<Category>> findByNameStartingWith(@RequestParam("name") String name) {
+        return ResponseEntity.ok(categoryService.findByNameStartingWith(name));
+    }
 }
