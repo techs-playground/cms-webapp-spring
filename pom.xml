@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>me.filipebezerra</groupId>
-	<artifactId>cms-app-fullstack-java</artifactId>
+	<artifactId>cms-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cms-app-fullstack-java</name>
+	<name>cms-app</name>
 	<description>Application that manages CMS content</description>
 
 	<properties>
@@ -57,10 +57,51 @@
 	</dependencies>
 
 	<build>
+		<finalName>cms-app</finalName>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.21.0</version>
+				<configuration>
+					<images>
+						<image>
+							<name>filipebezerra/${project.build.finalName}</name>
+							<build>
+								<from>openjdk:8-jdk-alpine</from>
+								<entryPoint>java -Dspring.profiles.active=container -jar /application/${project.build.finalName}.jar</entryPoint>
+								<assembly>
+									<basedir>/application</basedir>
+									<descriptorRef>artifact</descriptorRef>
+									<inline>
+										<id>assembly</id>
+										<files>
+											<file>
+												<source>target/${project.build.finalName}.jar</source>
+											</file>
+										</files>
+									</inline>
+								</assembly>
+								<tags>
+									<tag>latest</tag>
+								</tags>
+								<ports>
+									<port>8080</port>
+								</ports>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+							</run>
+							<alias>${project.build.finalName}</alias>
+						</image>
+					</images>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
