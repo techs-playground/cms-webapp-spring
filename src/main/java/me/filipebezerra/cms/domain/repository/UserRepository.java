@@ -1,7 +1,6 @@
 package me.filipebezerra.cms.domain.repository;
 
 import me.filipebezerra.cms.domain.models.User;
-import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Service
-public class UserRepository extends AbstractRepository<User> {}
+public interface UserRepository extends MongoRepository<User, String> { }

@@ -33,6 +33,14 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public List<Category> findByName(String name) {
+        return categoryRepository.findByName(name);
+    }
+
+    public List<Category> findByNameStartingWith(String name) {
+        return categoryRepository.findByNameIgnoreCaseStartingWith(name);
+    }
+
     @Transactional
     public Category create(CategoryRequest categoryRequest) {
         final Category category = new Category();
@@ -56,14 +64,6 @@ public class CategoryService {
     public void delete(String id) {
         final Optional<Category> category = categoryRepository.findById(id);
         category.ifPresent(categoryRepository::delete);
-    }
-
-    public List<Category> findByName(String name) {
-        return categoryRepository.findByName(name);
-    }
-
-    public List<Category> findByNameStartingWith(String name) {
-        return categoryRepository.findByNameIgnoreCaseStartingWith(name);
     }
 
 }

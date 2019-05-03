@@ -1,7 +1,6 @@
 package me.filipebezerra.cms.domain.repository;
 
 import me.filipebezerra.cms.domain.models.News;
-import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Service
-public class NewsRepository extends AbstractRepository<News> {}
+public interface NewsRepository extends MongoRepository<News, String> {}
