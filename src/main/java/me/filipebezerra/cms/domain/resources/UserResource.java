@@ -10,12 +10,12 @@ import me.filipebezerra.cms.domain.vo.UserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/user")
-@Api(tags = "user", description = "User API")
+@Api(tags = "user")
 public class UserResource {
 
     private final UserService userService;
@@ -30,7 +30,7 @@ public class UserResource {
             @ApiResponse(code = 200, message = "User found"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    public ResponseEntity<User> findOne(@PathVariable("id") String id) {
+    public ResponseEntity<Mono<User>> findOne(@PathVariable("id") String id) {
         return ResponseEntity.ok(userService.findOne(id));
     }
 
@@ -40,7 +40,7 @@ public class UserResource {
             @ApiResponse(code = 200, message = "User found"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<Flux<User>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
@@ -50,7 +50,7 @@ public class UserResource {
             @ApiResponse(code = 200, message = "User found"),
             @ApiResponse(code = 400, message = "Invalid request")
     })
-    public ResponseEntity<User> newUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<Mono<User>> newUser(@RequestBody UserRequest userRequest) {
         return new ResponseEntity<>(userService.create(userRequest), HttpStatus.CREATED);
     }
 
@@ -72,7 +72,7 @@ public class UserResource {
             @ApiResponse(code = 400, message = "Invalid request"),
             @ApiResponse(code = 404, message = "User not found")
     })
-    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody UserRequest userRequest) {
+    public ResponseEntity<Mono<User>> updateUser(@PathVariable("id") String id, @RequestBody UserRequest userRequest) {
         return new ResponseEntity<>(userService.update(id, userRequest), HttpStatus.OK);
     }
 

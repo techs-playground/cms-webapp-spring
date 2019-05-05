@@ -10,12 +10,12 @@ import me.filipebezerra.cms.domain.vo.CategoryRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/category")
-@Api(tags = "category", description = "Category API")
+@Api(tags = "category")
 public class CategoryResource {
 
     private final CategoryService categoryService;
@@ -30,7 +30,7 @@ public class CategoryResource {
             @ApiResponse(code = 200, message = "Category found"),
             @ApiResponse(code = 404, message = "Category not found")
     })
-    public ResponseEntity<Category> findOne(@PathVariable("id") String id) {
+    public ResponseEntity<Mono<Category>> findOne(@PathVariable("id") String id) {
         return ResponseEntity.ok(categoryService.findOne(id));
     }
 
@@ -40,7 +40,7 @@ public class CategoryResource {
             @ApiResponse(code = 200, message = "Categories found"),
             @ApiResponse(code = 404, message = "Category not found")
     })
-    public ResponseEntity<List<Category>> findAll() {
+    public ResponseEntity<Flux<Category>> findAll() {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
@@ -50,7 +50,7 @@ public class CategoryResource {
             @ApiResponse(code = 201, message = "Category created successfully"),
             @ApiResponse(code = 400, message = "Invalid request")
     })
-    public ResponseEntity<Category> newCategory(@RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Mono<Category>> newCategory(@RequestBody CategoryRequest categoryRequest) {
         return new ResponseEntity<>(categoryService.create(categoryRequest), HttpStatus.CREATED);
     }
 
@@ -61,7 +61,7 @@ public class CategoryResource {
             @ApiResponse(code = 400, message = "Invalid request"),
             @ApiResponse(code = 404, message = "Category not found")
     })
-    public ResponseEntity<Category> updateCategory(@PathVariable("id") String id, @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Mono<Category>> updateCategory(@PathVariable("id") String id, @RequestBody CategoryRequest categoryRequest) {
         return new ResponseEntity<>(categoryService.update(id, categoryRequest), HttpStatus.OK);
     }
 
@@ -82,7 +82,7 @@ public class CategoryResource {
             @ApiResponse(code = 200, message = "Categories found"),
             @ApiResponse(code = 404, message = "Category not found")
     })
-    public ResponseEntity<List<Category>> findByNameStartingWith(@RequestParam("name") String name) {
+    public ResponseEntity<Flux<Category>> findByNameStartingWith(@RequestParam("name") String name) {
         return ResponseEntity.ok(categoryService.findByNameStartingWith(name));
     }
 }

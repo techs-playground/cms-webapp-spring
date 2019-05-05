@@ -11,12 +11,12 @@ import me.filipebezerra.cms.domain.vo.NewsRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/news")
-@Api(tags = "news", description = "News API")
+@Api(tags = "news")
 public class NewsResource {
 
     private final NewsService newsService;
@@ -31,7 +31,7 @@ public class NewsResource {
             @ApiResponse(code = 200, message = "News found"),
             @ApiResponse(code = 404, message = "News not found")
     })
-    public ResponseEntity<News> findOne(@PathVariable("id") String id) {
+    public ResponseEntity<Mono<News>> findOne(@PathVariable("id") String id) {
         return ResponseEntity.ok(newsService.findOne(id));
     }
 
@@ -41,7 +41,7 @@ public class NewsResource {
             @ApiResponse(code = 200, message = "News found"),
             @ApiResponse(code = 404, message = "News not found")
     })
-    public ResponseEntity<List<News>> findAll() {
+    public ResponseEntity<Flux<News>> findAll() {
         return ResponseEntity.ok(newsService.findAll());
     }
 
@@ -51,7 +51,7 @@ public class NewsResource {
             @ApiResponse(code = 200, message = "News found"),
             @ApiResponse(code = 400, message = "Invalid request")
     })
-    public ResponseEntity<News> newNews(@RequestBody NewsRequest newsRequest) {
+    public ResponseEntity<Mono<News>> newNews(@RequestBody NewsRequest newsRequest) {
         return new ResponseEntity<>(newsService.create(newsRequest), HttpStatus.CREATED);
     }
 
@@ -73,7 +73,7 @@ public class NewsResource {
             @ApiResponse(code = 400, message = "Invalid request"),
             @ApiResponse(code = 404, message = "News not found")
     })
-    public ResponseEntity<News> updateNews(@PathVariable("id") String id, @RequestBody NewsRequest newsRequest) {
+    public ResponseEntity<Mono<News>> updateNews(@PathVariable("id") String id, @RequestBody NewsRequest newsRequest) {
         return new ResponseEntity<>(newsService.update(id, newsRequest), HttpStatus.OK);
     }
 
@@ -83,14 +83,14 @@ public class NewsResource {
             @ApiResponse(code = 200, message = "Review found"),
             @ApiResponse(code = 404, message = "Review not found")
     })
-    public ResponseEntity<Review> review(@PathVariable("id") String id, @PathVariable("userId") String userId) {
+    public ResponseEntity<Mono<Review>> review(@PathVariable("id") String id, @PathVariable("userId") String userId) {
         return ResponseEntity.ok(newsService.review(id, userId));
     }
 
     @GetMapping(value = "/revised")
     @ApiOperation(value = "List revised news", notes = "List all revised news")
     @ApiResponses(value = @ApiResponse(code = 200, message = "News found"))
-    public ResponseEntity<List<News>> revisedNews() {
+    public ResponseEntity<Flux<News>> revisedNews() {
         return new ResponseEntity<>(newsService.revisedNews(), HttpStatus.OK);
     }
 
