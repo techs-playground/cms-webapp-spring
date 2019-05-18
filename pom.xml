@@ -92,8 +92,8 @@
                             <name>filipebezerra/${project.build.finalName}</name>
                             <build>
                                 <from>openjdk:8-jdk-alpine</from>
-                                <entryPoint>java -Dspring.profiles.active=container -jar
-                                    /application/${project.build.finalName}.jar
+                                <entryPoint>
+                                    java -Dspring.profiles.active=container -jar /application/${project.build.finalName}.jar
                                 </entryPoint>
                                 <assembly>
                                     <basedir>/application</basedir>
